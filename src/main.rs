@@ -46,13 +46,15 @@ fn main() {
         println!("line: {}", line);
 
         let elements = line.split_whitespace().collect::<Vec<&str>>();
-        let moveAmount = elements[1].parse::<i32>().unwrap();
-        let moveFrom = elements[3].parse::<i32>().unwrap() - 1;
-        let moveTo = elements[5].parse::<i32>().unwrap() - 1;
+        let moveAmount = elements[1].parse::<i32>().unwrap() as usize;
+        let moveFrom = (elements[3].parse::<i32>().unwrap() - 1) as usize;
+        let moveTo = (elements[5].parse::<i32>().unwrap() - 1) as usize;
+        let popIndex = stacks[moveFrom as usize].len() - moveAmount;
 
         for _ in 0..moveAmount {
-            let element = stacks[moveFrom as usize].pop().unwrap();
-            stacks[moveTo as usize].push(element);
+            let element = stacks[moveFrom][popIndex];
+            stacks[moveTo].push(element);
+            stacks[moveFrom].remove(popIndex);
         }
 
         for s in &stacks{
